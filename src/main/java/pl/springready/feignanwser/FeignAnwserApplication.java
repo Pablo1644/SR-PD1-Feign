@@ -1,5 +1,7 @@
 package pl.springready.feignanwser;
 
+
+import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
@@ -13,10 +15,10 @@ import java.util.List;
 
 @SpringBootApplication
 @EnableFeignClients
+@Log4j2
 public class FeignAnwserApplication {
 
     private final QuoteProxy quoteProxy;
-
 
     // Wstrzykiwanie QoutesMechanism (Feign Client)
     public FeignAnwserApplication(QuoteProxy quoteProxy) {
@@ -31,32 +33,28 @@ public class FeignAnwserApplication {
     public void run() {
         // Wywołanie metody Feign Client po uruchomieniu aplikacji
         List<Quote> quotes = quoteProxy.getAllQuotes();
-        System.out.println("GET ALL!");
+        log.info("GET ALL!");
         quotes.forEach(quote -> {
-            System.out.println("ID: " + quote.value().id());
-            System.out.println("Quote: " + quote.value().quote());
+            log.info("ID: " + quote.value().id());
+            log.info("Quote: " + quote.value().quote());
         });
-        System.out.println("GET WITH ID = 5");
-        System.out.println(quoteProxy.getOne(5L));
-        System.out.println();
-        System.out.println("RANDOM");
-        System.out.println(quoteProxy.getRandomOne());
-        System.out.println("Get with request param");
-        System.out.println(quoteProxy.getOneByRequestParam(5L));
-        System.out.println("Get with header");
-        System.out.println(quoteProxy.getAllWithHeader("HEADER HEADER"));
-        System.out.println("DELETE");
-        System.out.println(quoteProxy.getOne(5L));
+        log.info("GET WITH ID = 5");
+        log.info(quoteProxy.getOne(5L));
+        log.info("RANDOM");
+        log.info(quoteProxy.getRandomOne());
+        log.info("Get with request param");
+        log.info(quoteProxy.getOneByRequestParam(5L));
+        log.info("Get with header");
+        log.info(quoteProxy.getAllWithHeader("HEADER HEADER"));
+        log.info("DELETE");
+        log.info(quoteProxy.getOne(5L));
         quoteProxy.deleteById(5L);
-        System.out.println("AFTER DELETE");
-        System.out.println(quoteProxy.getOne(5L));
+        log.info("AFTER DELETE");
+        log.info(quoteProxy.getOne(5L));
 
-        System.out.println("POST");
-        System.out.println(quoteProxy.addQuote(new QuotePost("QUOTE")));
+        log.info("POST");
+        log.info(quoteProxy.addQuote(new QuotePost("QUOTE")));
 
-
-
-//        System.out.println(qoutesMechanism.deleteById(1L));
-
+        log.info(quoteProxy.deleteById(1L));
     }
 }
