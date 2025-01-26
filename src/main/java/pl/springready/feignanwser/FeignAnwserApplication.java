@@ -20,7 +20,6 @@ public class FeignAnwserApplication {
 
     private final QuoteProxy quoteProxy;
 
-    // Wstrzykiwanie QoutesMechanism (Feign Client)
     public FeignAnwserApplication(QuoteProxy quoteProxy) {
         this.quoteProxy = quoteProxy;
     }
@@ -31,7 +30,6 @@ public class FeignAnwserApplication {
 
     @EventListener(ApplicationStartedEvent.class)
     public void run() {
-        // Wywołanie metody Feign Client po uruchomieniu aplikacji
         List<Quote> quotes = quoteProxy.getAllQuotes();
         log.info("GET ALL!");
         quotes.forEach(quote -> {
@@ -51,10 +49,8 @@ public class FeignAnwserApplication {
         quoteProxy.deleteById(5L);
         log.info("AFTER DELETE");
         log.info(quoteProxy.getOne(5L));
-
         log.info("POST");
         log.info(quoteProxy.addQuote(new QuotePost("QUOTE")));
-
         log.info(quoteProxy.deleteById(1L));
     }
 }
